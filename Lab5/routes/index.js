@@ -23,7 +23,9 @@ router.post('/', function (req, res, next) {
                     const newName = path.basename(file.originalname, ext) + '.jpeg'; // đổi tên nếu là file khác
                     cb(null, newName);
                 }
-                cb(null, file.originalname);
+               else {
+                    cb(null, file.originalname);
+                }
             }
 
 
