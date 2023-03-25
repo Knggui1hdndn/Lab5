@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-4">List Users</h1>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <!--    them user-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">Thêm user</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form action="/users" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Mật khẩu:</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Họ và tên:</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Ảnh đại diện:</label>
+                                <input type="file" class="form-control-file" id="image" name="image" accept="image/*"
+                                       required>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Đăng ký</button>
+                                    <!--                 //   <button type="button" class="btn btn-primary">Save changes</button>-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--    xoa user-->
+    <div class="modal fade" id="sua" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">Update user</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   <form action="/update/:id" id="from-update" method="post" enctype="multipart/form-data">
+                       <div class="container">
+
+                           <div class="form-group">
+                               <label for="email">Email:</label>
+                               <input type="email" class="form-control"   id="email" name="email"
+                                      required>
+                           </div>
+                           <div class="form-group">
+                               <label for="password">Mật khẩu:</label>
+                               <input type="password" class="form-control" id="password"
+                                      name="password" required   >
+                           </div>
+                           <div class="form-group">
+                               <label for="name">Họ và tên:</label>
+                               <input type="text" class="form-control" id="name" name="name" required  >
+                           </div>
+                           <div class="form-group">
+                               <label for="image">Ảnh đại diện:</label>
+                               <img src="" id="avatar" style="height: 150px;width: 150px" alt="avatar"   for="image">
+                               <input type="file" class="form-control-file" id="image" name="image"
+                                      accept="image/*"
+                                      required>
+                               <div class="modal-footer">
+                                   <button type="button" class="btn btn-secondary"
+                                           data-dismiss="modal">Close
+                                   </button>
+                                   <button   class="btn btn-primary" id="update-button" type="submit">Update</button>
+
+                                   <!--                 //   <button type="button" class="btn btn-primary">Save changes</button>-->
+                               </div>
+                           </div>
+
+                       </div>
+                   </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="xoa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">Thông báo!</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <h5 id="ssss">Xác nhận xóa user</h5>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Close
+                            </button>
+                            <button class="btn btn-primary"   id="delete-button">Delete</button>
+                            <!--                 //   <button type="button" class="btn btn-primary">Save changes</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Avatar</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% users.forEach(function(user){ %>
+            <tr>
+                <td><%= user.email %></td>
+                <td><%= user.name %></td>
+                <td>
+                    <img src=" <%= user.image %>" alt="User avatar" class="img-thumbnail"
+                         style="height: 150px;width: 150px">
+                </td>
+                <td>
+                    <!--    sua user-->
+                    <button type="button" class="btn btn-primary" id="show-user-update" data-toggle="modal" data-target="#sua"
+                            data-whatever="<%= user.id %>">
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-primary" style="background: red" data-toggle="modal"
+                            data-target="#xoa" data-whatever="<%= user.id %>">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        <% }); %>
+        </tbody>
+    </table>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script  type="module">
+
+
+
+
+    let idXoa = '';
+    $('#xoa').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var recipient = button.data('whatever')
+        var modal = $(this)
+        //  modal.find('from-update').action(recipient)
+        idXoa =   recipient;
+        console.log(idXoa)
+
+    })
+
+    $('#sua').on('show.bs.modal', async function (event) {
+        var button = $(event.relatedTarget)
+        var recipient = button.data('whatever')
+        var modal = $(this)
+        // modal.find('.modal-title').text(recipient) find theo tên class
+        idXoa =   recipient;
+        // Thay đổi thuộc tính action của form
+        var form = modal.find('#from-update');
+        var url = '/users/update/' + idXoa;
+        form.attr('action', url);
+
+        await getUser('/'+idXoa)
+        console.log(idXoa)
+
+    })
+
+    const deleteButton = document.getElementById('delete-button');
+    deleteButton.addEventListener('click', async () => {
+
+        try {
+            const response = await axios.delete('/users/delete/'+idXoa);
+
+
+            console.log(response.data.success); // Hiển thị thông báo khi xóa thành công
+        } catch (error) {
+
+        }
+    });
+
+
+
+    async function getUser(url) {
+        try {
+            const response = await axios.get('/users/'+url);
+            console.log(url);
+            const user = response.data.user;
+            // Hiển thị dialog
+
+            // Đổ dữ liệu vào các input trong dialog
+            $('#sua #name').val(user.name);
+            $('#sua #email').val(user.email);
+            $('#sua #password').val(user.password);
+            $('#avatar').attr('src', user.image);
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+</script>
+
+</body>
+</html>
