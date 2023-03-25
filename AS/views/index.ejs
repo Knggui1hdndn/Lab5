@@ -13,7 +13,7 @@
 
 <div class="container">
   <h1>Đăng nhập</h1>
-  <form action="profile.html" method="POST">
+  <form action="/users/login" method="post">
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email" name="email" required>
@@ -44,6 +44,8 @@
               <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" name="email" required>
+                <input type="text" class="form-control" id="text" name="text" value="a" hidden="hidden" required>
+
               </div>
               <div class="form-group">
                 <label for="password">Mật khẩu:</label>

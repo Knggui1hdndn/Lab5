@@ -45,7 +45,8 @@ router.post('/update/:id', upload.single('image'), async (req, res) => {
        }
 // Lưu lại dữ liệu đã update
         await user.save();
-        res.redirect('/');
+        res.redirect('http://localhost:3000/users/list')
+
 
 
     } catch (error) {
@@ -59,10 +60,37 @@ router.delete('/delete/:id', async (req, res) => {
         if (!deletedUser) {
             return res.status(404).send({error: 'User not found'});
         }
-res.redirect('/users/list')
+
     } catch (error) {
         console.error(error);
         res.status(500).send({error: 'Server error'});
+    }
+});
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Tìm kiếm tài khoản người dùng với email tương ứng
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            // Nếu không tìm thấy tài khoản, trả về thông báo lỗi
+            return res.status(400).json({ message: 'Invalid email or password' });
+        }
+
+        // Kiểm tra mật khẩu
+
+
+        if (password!==user.password) {
+            // Nếu mật khẩu không khớp, trả về thông báo lỗi
+            return res.status(400).json({ message: 'Invalid email or password' });
+        }
+
+        // Nếu thông tin đăng nhập chính xác, tạo session và chuyển hướng đến trang chủ
+         res.redirect('http://localhost:3000/users/list')
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
 });
 router.post('/', upload.single('image'), async (req, res, next) => {
@@ -71,13 +99,40 @@ router.post('/', upload.single('image'), async (req, res, next) => {
     // resize ảnh về kích thước 100x100px
     const base64Image = await image.getBase64Async(Jimp.MIME_PNG);
     // xử lý file ở đây
+
+    const {text}=req.body
+
     const newUser = new User(req.body);
     newUser.image = base64Image;
     try {
         await newUser.save()
-        res.redirect('/');
-    } catch (err) {
+        if(text==='s'){
+            res.redirect('http://localhost:3000/users/list')
+        }else{
+            res.redirect('/')
+        }
+     } catch (err) {
         res.status(500).send(err)
     }
 });
+router.post('/search', async (req, res) => {
+    const { search } = req.body;
+
+    try {
+        // Tìm kiếm trong cơ sở dữ liệu
+        const users = await User.find({
+            $or: [
+                { firstName: { $regex: search, $options: 'i' } },
+                { lastName: { $regex: search, $options: 'i' } },
+                { email: { $regex: search, $options: 'i' } },
+            ]
+        });
+
+         res.render('users', { users:users });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 module.exports = router;
